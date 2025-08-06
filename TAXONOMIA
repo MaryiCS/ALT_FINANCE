@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentación Interactiva: Financiamiento Alternativo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .slide {
+            display: none;
+        }
+        .slide.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+        .modal {
+            display: none;
+        }
+        .modal.active {
+            display: flex;
+            animation: fadeIn 0.3s;
+        }
+        .progress-bar-fill {
+            transition: width 0.5s ease-in-out;
+        }
+        .table-responsive {
+            display: block;
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+
+    <div class="w-full max-w-4xl bg-white rounded-2xl shadow-2xl overflow-hidden">
+        <div class="p-4 bg-gray-50 border-b border-gray-200">
+            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                <div id="progressBar" class="bg-blue-600 h-2.5 rounded-full" style="width: 10%"></div>
+            </div>
+        </div>
+
+        <div id="presentation-container" class="p-8 md:p-12 min-h-[500px] flex flex-col justify-center">
+
+            <!-- Slide 1: Título -->
+            <div id="slide-1" class="slide active text-center">
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Financiamiento Alternativo</h1>
+                <p class="text-xl md:text-2xl text-gray-600 mb-8">Una nueva era para emprendedores en América Latina y Colombia.</p>
+                <button onclick="nextSlide()" class="bg-blue-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-700 transition-colors">Comenzar</button>
+            </div>
+
+            <!-- Slide 2: ¿Qué es? -->
+            <div id="slide-2" class="slide">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">¿Qué es el Financiamiento Alternativo?</h2>
+                <p class="text-lg text-gray-700 mb-4">Son todas las formas de financiación para empresas que <strong>no provienen de los bancos tradicionales</strong>. Surgieron con fuerza tras la crisis de 2008 para apoyar a startups y pymes que no encontraban capital.</p>
+                <p class="text-lg text-gray-700 mb-6">Hoy, es una industria global que moviliza miles de millones y crece a un ritmo del 40% anual en regiones como Europa.</p>
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg">
+                    <p class="text-blue-800">Se ha convertido en una fuente de capital <strong>adicional y vital</strong> para la innovación y el crecimiento empresarial.</p>
+                </div>
+                 <button onclick="showModal('modal-sabias-que')" class="mt-6 text-blue-600 font-semibold hover:underline">¿Sabías que...?</button>
+            </div>
+
+            <!-- Slide 3: Tipos Offline -->
+            <div id="slide-3" class="slide">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Modelos de Financiación "Offline"</h2>
+                <p class="text-center text-gray-600 mb-8">Estos modelos se basan en relaciones más directas y tradicionales. Haz clic en cada tarjeta para saber más.</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="card p-6 bg-gray-50 rounded-lg text-center cursor-pointer" onclick="showModal('modal-angels')">
+                        <h3 class="font-bold text-xl mb-2">Business Angels</h3>
+                        <p class="text-gray-600">Inversores privados que aportan capital y mentoría.</p>
+                    </div>
+                    <div class="card p-6 bg-gray-50 rounded-lg text-center cursor-pointer" onclick="showModal('modal-vc')">
+                        <h3 class="font-bold text-xl mb-2">Venture Capital</h3>
+                        <p class="text-gray-600">Fondos que invierten en empresas con alto potencial.</p>
+                    </div>
+                    <div class="card p-6 bg-gray-50 rounded-lg text-center cursor-pointer" onclick="showModal('modal-otros')">
+                        <h3 class="font-bold text-xl mb-2">Otros Modelos</h3>
+                        <p class="text-gray-600">Venture Debt, Family Offices, Préstamos Convertibles.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 4: Tipos Online -->
+            <div id="slide-4" class="slide">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Modelos de Financiación Online (Fintech)</h2>
+                <p class="text-center text-gray-600 mb-8">La tecnología ha revolucionado el acceso al capital. Estos son los modelos más populares.</p>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-6 text-center">
+                    <div class="card p-4 bg-teal-50 rounded-lg cursor-pointer" onclick="showModal('modal-crowdfunding')">
+                        <div class="text-4xl mb-2">👥</div>
+                        <h3 class="font-bold">Crowdfunding</h3>
+                        <p class="text-sm text-gray-600">Financiación colectiva (préstamo, recompensa, donación, equity).</p>
+                    </div>
+                    <div class="card p-4 bg-indigo-50 rounded-lg cursor-pointer" onclick="showModal('modal-p2p')">
+                        <div class="text-4xl mb-2">🤝</div>
+                        <h3 class="font-bold">P2P Lending</h3>
+                        <p class="text-sm text-gray-600">Préstamos directos entre personas y empresas.</p>
+                    </div>
+                    <div class="card p-4 bg-rose-50 rounded-lg cursor-pointer" onclick="showModal('modal-invoice')">
+                        <div class="text-4xl mb-2">🧾</div>
+                        <h3 class="font-bold">Invoice Trading</h3>
+                        <p class="text-sm text-gray-600">Adelanto de facturas para obtener liquidez inmediata.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Slide 5: Panorama LatAm -->
+            <div id="slide-5" class="slide">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Panorama en América Latina</h2>
+                <p class="text-center text-gray-600 mb-8">Latinoamérica es un hervidero de innovación Fintech. La brecha de inclusión financiera y la digitalización acelerada han creado un terreno fértil para el financiamiento alternativo.</p>
+                <div class="p-4 bg-green-50 border-l-4 border-green-500 rounded-r-lg">
+                    <p class="text-green-800">El mercado de finanzas alternativas en la región superó los <strong>$5.27 mil millones de dólares</strong> en 2020, con un crecimiento exponencial en países como Brasil, México y Colombia.</p>
+                </div>
+                <p class="text-center text-gray-600 mt-6"><strong>Caso de Éxito:</strong> <span class="font-bold text-purple-600">Nubank</span> (Brasil), el neobanco más grande del mundo, comenzó con capital de Venture Capital y hoy vale más que muchos bancos tradicionales.</p>
+            </div>
+
+            <!-- Slide 6: Datos Clave -->
+            <div id="slide-6" class="slide">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Cifras Clave del Ecosistema</h2>
+                <div class="table-responsive">
+                    <table class="w-full text-sm text-left text-gray-500">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3">Métrica</th>
+                                <th scope="col" class="px-6 py-3">Global (2020, excl. China)</th>
+                                <th scope="col" class="px-6 py-3">Latinoamérica (2020)</th>
+                                <th scope="col" class="px-6 py-3">Capital Privado Colombia (2020)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="bg-white border-b">
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">Volumen del Mercado</th>
+                                <td class="px-6 py-4">$113 mil millones</td>
+                                <td class="px-6 py-4">$5.27 mil millones</td>
+                                <td class="px-6 py-4">$17.85 mil millones (Compromisos)</td>
+                            </tr>
+                            <tr class="bg-gray-50 border-b">
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">Crecimiento Anual</th>
+                                <td class="px-6 py-4">24%</td>
+                                <td class="px-6 py-4">9%</td>
+                                <td class="px-6 py-4">4% (Compromisos)</td>
+                            </tr>
+                            <tr class="bg-white border-b">
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">Financiamiento a Empresas</th>
+                                <td class="px-6 py-4">47% del total</td>
+                                <td class="px-6 py-4">86% del total</td>
+                                <td class="px-6 py-4">N/A (Enfoque principal)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="text-center mt-6">
+                     <button onclick="showModal('modal-fuentes')" class="text-blue-600 font-semibold hover:underline">Ver más detalles y fuentes</button>
+                </div>
+            </div>
+
+            <!-- Slide 7: Foco en Colombia -->
+            <div id="slide-7" class="slide">
+                 <h2 class="text-3xl font-bold text-gray-800 mb-2 text-center">Colombia: Un Ecosistema en Plena Ebullición</h2>
+                <p class="text-center text-gray-600 mb-6">Colombia es el <strong>tercer ecosistema Fintech más grande</strong> de la región. La regulación ha sido un pilar clave para su desarrollo.</p>
+                
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <div class="flex justify-center mb-4">
+                        <button id="btn-vaki" onclick="switchCase('vaki')" class="px-4 py-2 font-semibold text-white bg-blue-600 rounded-l-lg focus:outline-none">Caso: Vaki</button>
+                        <button id="btn-a2censo" onclick="switchCase('a2censo')" class="px-4 py-2 font-semibold text-gray-700 bg-gray-200 rounded-r-lg focus:outline-none">Caso: a2censo</button>
+                    </div>
+
+                    <div id="case-vaki">
+                        <h3 class="text-2xl font-bold text-blue-600 mb-2">Vaki</h3>
+                        <p class="text-gray-700">Es la plataforma de <strong>crowdfunding de recompensa y donación</strong> más reconocida de Colombia. Ha permitido financiar desde proyectos sociales y culturales hasta emprendimientos personales, demostrando el poder de la comunidad para hacer realidad las ideas.</p>
+                    </div>
+
+                    <div id="case-a2censo" style="display: none;">
+                        <h3 class="text-2xl font-bold text-green-600 mb-2">a2censo</h3>
+                        <p class="text-gray-700">Es la plataforma de <strong>crowdfunding de inversión (crowdlending)</strong> de la Bolsa de Valores de Colombia. Conecta pymes en busca de capital con ciudadanos que quieren invertir. Ha democratizado la inversión y canalizado millones de pesos a la economía real.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 8: Ventajas y Desafíos -->
+            <div id="slide-8" class="slide">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Ventajas y Desafíos</h2>
+                <div class="flex flex-col md:flex-row gap-8">
+                    <div class="flex-1">
+                        <h3 class="text-2xl font-semibold text-green-600 mb-4 text-center">✅ Ventajas</h3>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li><strong>Mayor Acceso:</strong> Abre puertas a quienes no califican para créditos bancarios.</li>
+                            <li><strong>Rapidez y Agilidad:</strong> Procesos 100% digitales y decisiones en días, no meses.</li>
+                            <li><strong>Validación del Mercado:</strong> El éxito en crowdfunding demuestra que hay interés real en el producto.</li>
+                            <li><strong>Flexibilidad:</strong> Múltiples modelos para cada etapa y necesidad del negocio.</li>
+                        </ul>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-2xl font-semibold text-red-600 mb-4 text-center">⚠️ Desafíos</h3>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li><strong>Regulación:</strong> Aunque avanza, sigue siendo un terreno nuevo y cambiante.</li>
+                            <li><strong>Riesgos:</strong> Tanto para el emprendedor (dilución) como para el inversor (pérdida de capital).</li>
+                            <li><strong>Educación Financiera:</strong> Se necesita mayor conocimiento para usar estas herramientas de forma efectiva.</li>
+                            <li><strong>Visibilidad:</strong> Destacar en un mar de proyectos puede ser difícil.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Slide 9: Conclusión -->
+            <div id="slide-9" class="slide text-center">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">El Futuro es Alternativo</h2>
+                <p class="text-lg text-gray-700 mb-6">El financiamiento alternativo ya no es una "alternativa", sino una <strong>parte fundamental del ecosistema financiero</strong>. Para emprendedores en Colombia y América Latina, representa una oportunidad sin precedentes para crecer.</p>
+                <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded-r-lg text-left">
+                    <p class="text-yellow-800"><strong>Tu próximo paso:</strong> Investiga las plataformas disponibles, entiende qué modelo se ajusta a tu proyecto y prepárate para contar tu historia. ¡El capital para tu idea puede estar a solo un clic de distancia!</p>
+                </div>
+                <button onclick="restartPresentation()" class="mt-8 bg-gray-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-gray-700 transition-colors">Reiniciar Presentación</button>
+            </div>
+
+        </div>
+
+        <div class="flex justify-between p-4 bg-gray-50 border-t border-gray-200">
+            <button id="prevBtn" onclick="prevSlide()" class="bg-gray-300 text-gray-800 font-bold py-2 px-6 rounded-lg hover:bg-gray-400 transition-colors disabled:opacity-50" disabled>Anterior</button>
+            <button id="nextBtn" onclick="nextSlide()" class="bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors">Siguiente</button>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div id="modal-sabias-que" class="modal fixed inset-0 bg-black bg-opacity-50 items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-lg shadow-xl p-8 max-w-md w-full">
+            <h3 class="text-2xl font-bold mb-4">¿Sabías que...? 🤔</h3>
+            <p class="text-gray-700 mb-6">Aunque el <strong>Crowdfunding</strong> es el modelo más famoso, solo representa cerca del <strong>20% de todo el capital</strong> movilizado por el financiamiento alternativo. El resto proviene de P2P Lending, Venture Capital y otros modelos más estructurados.</p>
+            <button onclick="closeAllModals()" class="bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 w-full">Entendido</button>
+        </div>
+    </div>
+    
+    <div id="modal-angels" class="modal fixed inset-0 bg-black bg-opacity-50 items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-lg shadow-xl p-8 max-w-md w-full">
+            <h3 class="text-2xl font-bold mb-4">👼 Business Angels</h3>
+            <p class="text-gray-700 mb-6">Son individuos con alto patrimonio que invierten su propio dinero en startups en etapas muy tempranas. A cambio de una participación (equity), no solo aportan capital, sino también su experiencia y red de contactos. Son cruciales para las primeras fases de un proyecto.</p>
+            <button onclick="closeAllModals()" class="bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 w-full">Cerrar</button>
+        </div>
+    </div>
+
+    <div id="modal-vc" class="modal fixed inset-0 bg-black bg-opacity-50 items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-lg shadow-xl p-8 max-w-md w-full">
+            <h3 class="text-2xl font-bold mb-4">🚀 Venture Capital (Capital de Riesgo)</h3>
+            <p class="text-gray-700 mb-6">Son firmas de inversión que gestionan fondos de terceros para invertir en empresas con alto potencial de crecimiento. Invierten en etapas más maduras que los Business Angels y buscan retornos exponenciales. Suelen tomar un rol activo en el consejo de la empresa.</p>
+            <button onclick="closeAllModals()" class="bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 w-full">Cerrar</button>
+        </div>
+    </div>
+    
+    <div id="modal-otros" class="modal fixed inset-0 bg-black bg-opacity-50 items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-lg shadow-xl p-8 max-w-md w-full">
+            <h3 class="text-2xl font-bold mb-4">🧩 Otros Modelos Offline</h3>
+            <p class="text-gray-700 mb-6">
+                <strong class="block">Venture Debt:</strong> Deuda para startups que ya tienen respaldo de VCs.
+                <strong class="block mt-2">Family Offices:</strong> Gestión de patrimonio de familias adineradas, con inversiones flexibles.
+                <strong class="block mt-2">Préstamos Convertibles:</strong> Deuda que puede convertirse en acciones en el futuro.
+            </p>
+            <button onclick="closeAllModals()" class="bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 w-full">Cerrar</button>
+        </div>
+    </div>
+
+    <div id="modal-crowdfunding" class="modal fixed inset-0 bg-black bg-opacity-50 items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-lg shadow-xl p-8 max-w-md w-full">
+            <h3 class="text-2xl font-bold mb-4">👥 Crowdfunding (Financiación Colectiva)</h3>
+            <p class="text-gray-700 mb-6">Consiste en recaudar pequeñas cantidades de dinero de un gran número de personas. Tipos: <br><strong>- Recompensa:</strong> Recibes un producto o servicio. <br><strong>- Préstamo (Crowdlending):</strong> Recibes intereses. <br><strong>- Equity:</strong> Recibes acciones de la empresa. <br><strong>- Donación:</strong> Apoyas una causa sin esperar nada a cambio.</p>
+            <button onclick="closeAllModals()" class="bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 w-full">Cerrar</button>
+        </div>
+    </div>
+
+    <div id="modal-p2p" class="modal fixed inset-0 bg-black bg-opacity-50 items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-lg shadow-xl p-8 max-w-md w-full">
+            <h3 class="text-2xl font-bold mb-4">🤝 P2P Business Lending</h3>
+            <p class="text-gray-700 mb-6">Plataformas que conectan directamente a empresas que necesitan un préstamo con inversores (particulares o institucionales) dispuestos a prestarles dinero. Elimina al intermediario bancario, ofreciendo mejores tasas para ambas partes y un proceso más rápido.</p>
+            <button onclick="closeAllModals()" class="bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 w-full">Cerrar</button>
+        </div>
+    </div>
+    
+    <div id="modal-invoice" class="modal fixed inset-0 bg-black bg-opacity-50 items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-lg shadow-xl p-8 max-w-md w-full">
+            <h3 class="text-2xl font-bold mb-4">🧾 Invoice Trading (Factoring)</h3>
+            <p class="text-gray-700 mb-6">Permite a las empresas vender sus facturas por cobrar a un inversor con un pequeño descuento. A cambio, reciben el dinero de forma casi inmediata en lugar de esperar 30, 60 o 90 días. Es una herramienta poderosa para gestionar el flujo de caja.</p>
+            <button onclick="closeAllModals()" class="bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 w-full">Cerrar</button>
+        </div>
+    </div>
+    
+    <div id="modal-fuentes" class="modal fixed inset-0 bg-black bg-opacity-50 items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-lg shadow-xl p-8 max-w-lg w-full max-h-[90vh] overflow-y-auto">
+            <h3 class="text-2xl font-bold mb-4">Detalles y Fuentes 📚</h3>
+            <div class="space-y-4 text-gray-700 text-sm">
+                <div>
+                    <h4 class="font-bold text-base text-gray-800">Panorama Global y de Latinoamérica</h4>
+                    <p>"El mercado global de finanzas alternativas (excluyendo a China) creció un 24% interanual para alcanzar los $113 mil millones en 2020. En Latinoamérica y el Caribe (LAC), el volumen alcanzó los $5.27 mil millones en 2020, con un 86% de este financiamiento destinado a PYMES."</p>
+                    <p class="text-xs text-gray-500 mt-1"><strong>Fuente:</strong> The 2nd Global Alternative Finance Market Benchmarking Report, Cambridge Centre for Alternative Finance (CCAF), 2021.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-base text-gray-800">Industria de Capital Privado en Colombia</h4>
+                    <p>"La industria en Colombia ha impactado a diciembre de 2020, a más de 998 empresas y proyectos con operaciones en el país, a través de USD 12.831,3 millones en inversiones. Los compromisos de capital para Colombia ascienden a los USD 17.853,0 millones."</p>
+                     <p class="text-xs text-gray-500 mt-1"><strong>Fuente:</strong> Estudio de la Industria de Fondos de Capital Privado en Colombia 2020, ColCapital & EY.</p>
+                </div>
+                 <div>
+                    <h4 class="font-bold text-base text-gray-800">Políticas de Apoyo en Colombia</h4>
+                    <p>"El DPF (Development Policy Financing) del Banco Mundial apoyó medidas para promover la inversión en innovación, habilitar el desarrollo de las finanzas digitales (crowdfunding), y fomentar el emprendimiento y la internacionalización como parte de la recuperación post-COVID-19."</p>
+                     <p class="text-xs text-gray-500 mt-1"><strong>Fuente:</strong> Competitiveness and Recovery - Development Policy Loan, The World Bank, 2024.</p>
+                </div>
+            </div>
+            <button onclick="closeAllModals()" class="mt-6 bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 w-full">Entendido</button>
+        </div>
+    </div>
+
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 9; // Updated total slides
+        const progressBar = document.getElementById('progressBar');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        function showSlide(slideNumber) {
+            document.querySelectorAll('.slide').forEach(slide => {
+                slide.classList.remove('active');
+            });
+            document.getElementById(`slide-${slideNumber}`).classList.add('active');
+            updateControls();
+            updateProgressBar();
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                currentSlide++;
+                showSlide(currentSlide);
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 1) {
+                currentSlide--;
+                showSlide(currentSlide);
+            }
+        }
+
+        function updateControls() {
+            prevBtn.disabled = currentSlide === 1;
+            if (currentSlide === totalSlides) {
+                nextBtn.style.display = 'none';
+            } else {
+                 if (currentSlide === 1) {
+                    nextBtn.style.display = 'none';
+                 } else {
+                    nextBtn.style.display = 'block';
+                 }
+            }
+        }
+        
+        function updateProgressBar() {
+            const progressPercentage = (currentSlide / totalSlides) * 100;
+            progressBar.style.width = `${progressPercentage}%`;
+        }
+        
+        function restartPresentation() {
+            currentSlide = 1;
+            showSlide(1);
+            nextBtn.style.display = 'block';
+            document.getElementById('slide-1').querySelector('button').style.display = 'inline-block';
+            nextBtn.style.display = 'none';
+        }
+
+        function showModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+
+        function closeAllModals() {
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.classList.remove('active');
+            });
+        }
+        
+        function switchCase(caseId) {
+            const btnVaki = document.getElementById('btn-vaki');
+            const btnA2censo = document.getElementById('btn-a2censo');
+            const caseVaki = document.getElementById('case-vaki');
+            const caseA2censo = document.getElementById('case-a2censo');
+
+            if (caseId === 'vaki') {
+                caseVaki.style.display = 'block';
+                caseA2censo.style.display = 'none';
+                btnVaki.classList.add('bg-blue-600', 'text-white');
+                btnVaki.classList.remove('bg-gray-200', 'text-gray-700');
+                btnA2censo.classList.add('bg-gray-200', 'text-gray-700');
+                btnA2censo.classList.remove('bg-blue-600', 'text-white');
+            } else {
+                caseVaki.style.display = 'none';
+                caseA2censo.style.display = 'block';
+                btnA2censo.classList.add('bg-blue-600', 'text-white');
+                btnA2censo.classList.remove('bg-gray-200', 'text-gray-700');
+                btnVaki.classList.add('bg-gray-200', 'text-gray-700');
+                btnVaki.classList.remove('bg-blue-600', 'text-white');
+            }
+        }
+
+        // Initial setup
+        document.addEventListener('DOMContentLoaded', () => {
+            showSlide(currentSlide);
+            nextBtn.style.display = 'none'; // Hide next button on title slide
+        });
+
+    </script>
+</body>
+</html>
